@@ -100,7 +100,7 @@ export const TaskManager = () => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `task-file${new Date()}.pdf`;
+    a.download = `task-file-${new Date().toLocaleTimeString()}.pdf`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
