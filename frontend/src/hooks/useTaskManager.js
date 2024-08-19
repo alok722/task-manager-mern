@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createTask, updateTask } from "./taskService";
+import { createTask, updateTask } from "../service";
 
 export const useTaskManager = () => {
   const [taskData, setTaskData] = useState(null);
@@ -37,7 +37,11 @@ export const useTaskManager = () => {
 
     try {
       if (isEditing) {
-        await updateTask(taskData._id, taskData);
+        await updateTask(taskData._id, {
+          title: taskData.title,
+          description: taskData.description,
+          deadline: taskData.deadline,
+        });
       } else {
         await createTask(formData);
       }
