@@ -4,9 +4,7 @@ const TaskServiceInstance = new TaskService();
 
 const getTasks = async (req, res) => {
   try {
-    const { date } = req.query;
-    const query = date ? { deadline: new Date(date) } : {};
-    const tasks = await TaskServiceInstance.find(query);
+    const tasks = await TaskServiceInstance.find();
     res.status(200).json(tasks);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -17,16 +15,11 @@ const createTask = async (req, res) => {
   try {
     const { title, description, deadline } = req.body;
 
-    let linkedFile = null;
-    if (req.file) {
-      linkedFile = {
-        data: req.file.buffer,
-        contentType: req.file.mimetype,
-      };
-    }
+    const linkedFile = req.file
+      ? { data: req.file.buffer, contentType: req.file.mimetype }
+      : null;
 
-    const body = { title, description, deadline, linkedFile };
-    const newTask = await TaskServiceInstance.create(body);
+    const newTask = await TaskServiceInstance.create({ title, description, deadline, linkedFile });
     res.status(201).json(newTask);
   } catch (err) {
     res.status(500).json({ error: err.message });

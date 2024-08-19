@@ -1,8 +1,8 @@
 const Task = require("../models/task.model");
 
 class TaskService {
-  find = async (query) => {
-    const tasks = await Task.find(query);
+  find = async () => {
+    const tasks = await Task.find({});
     return tasks;
   };
 
